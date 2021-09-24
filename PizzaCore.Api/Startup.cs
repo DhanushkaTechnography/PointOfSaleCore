@@ -11,7 +11,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PizzaCore.Authentication;
 using PizzaCore.Business.Auth;
+using PizzaCore.Business.CategoryService;
 using PizzaPos.DataAccess.AuthRepository;
+using PizzaPos.DataAccess.CategoryRepository;
 
 namespace PizzaCore
 {
@@ -21,8 +23,9 @@ namespace PizzaCore
         {
             Configuration = configuration;
         }
+
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddJsonOptions(options =>
@@ -30,11 +33,13 @@ namespace PizzaCore
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("Default")));
+                options.UseMySQL(Configuration.GetConnectionString("Default"), b=>b.MigrationsAssembly("PizzaCore.Api")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-            services.AddScoped<IAuthService,AuthService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,8 +60,12 @@ namespace PizzaCore
                     };
                 });
             services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "PizzaCore.Api", Version = "v1"}); });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "PizzaCore.Api", Version = "v1"});
+            });
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -66,6 +75,7 @@ namespace PizzaCore
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PizzaCore.Api v1"));
             }
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

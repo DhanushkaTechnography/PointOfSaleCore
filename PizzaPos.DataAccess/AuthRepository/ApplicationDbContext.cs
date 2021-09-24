@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PizzaCore.Authentication;
+using PizzaCore.Entity.Category;
 
 namespace PizzaPos.DataAccess.AuthRepository
 {
@@ -39,5 +40,7 @@ namespace PizzaPos.DataAccess.AuthRepository
             builder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.Id).HasMaxLength(85));
             builder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(85));
         }
+
+        public DbSet<CategoryDto> Categories { get; set; }
     }
 }
