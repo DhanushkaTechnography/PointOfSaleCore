@@ -6,16 +6,18 @@ using PizzaCore.Entity.Pizza;
 
 namespace PizzaCore.Entity.PizzaOrderDetails
 {
-    public class PizzaOrderDerailsDto
+    public class PizzaOrderDetailsDto
     {
         [Key]
         public int PizzaOrderDetailsId { get; set; }
-        public OrderDto PizzaOrderId { get; set; }
-        public PizzaDto PizzaId { get; set; }
+        
+        public OrderDto PizzaOrder { get; set; }
+        public PizzaDto Pizza { get; set; }
+        
         public float PizzaOrderDetailsPrice { get; set; }
-        public DateTime CreateDet { get; set; }
-        public DateTime UpdateDate { get; set; }
-        public bool Status { get; set; }
+        public DateTime PizzaOrderDetailsCreateDet { get; set; }
+        public DateTime PizzaOrderDetailsUpdateDate { get; set; }
+        public int PizzaOrderDetailsStatus { get; set; }
         
     }
 }

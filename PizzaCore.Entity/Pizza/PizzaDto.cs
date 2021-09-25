@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using PizzaCore.Entity.Crust;
+using PizzaCore.Entity.SubCategory;
 
 
 namespace PizzaCore.Entity.Pizza
@@ -10,12 +11,14 @@ namespace PizzaCore.Entity.Pizza
     {
         [Key]
         public int PizzaId { get; set; }
-        //Have to add foreign key to sub cost id but i don't Know what is the table this attribute at Primary Key =>
-        public int SubCatId { get; set; }
-        public CrustDto CrustId { get; set; }
+        
+        public SubCategoryDto SubCategory { get; set; }
+        
+        public CrustDto Crust { get; set; }
+        
         public string PizzaName { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime UpdateDate { get; set; }
-        public bool Status { get; set; }
+        public DateTime PizzaCreateDate { get; set; }
+        public DateTime PizzaUpdateDate { get; set; }
+        public int PizzaStatus { get; set; }
     }
 }

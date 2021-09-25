@@ -14,8 +14,8 @@ namespace PizzaCore.Entity.Customer
         public string CusCountry { get; set; }
         public string CusEmail { get; set; }
         public string CusType { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool Status { get; set; }
+        public DateTime CusCreatedDate { get; set; }
+        public DateTime CusUpdatedDate { get; set; }
+        public int CusStatus { get; set; }
     }
 }
