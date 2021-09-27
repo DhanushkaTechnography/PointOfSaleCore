@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using PizzaCore.Entity.Customer;
+using PizzaCore.Entity.Employee;
 
 namespace PizzaCore.Entity.Order
 {
@@ -8,15 +9,18 @@ namespace PizzaCore.Entity.Order
     {
         [Key]
         public int OrderId { get; set; }
-        public CustomerDto CusId { get; set; }
-        public int EmpId { get; set; }
-        public float SubTotal { get; set; }
-        public float Total { get; set; }
-        public float Discount { get; set; }
-        public float Tax { get; set; }
+        
+        public CustomerDto Customer { get; set; }
+        
+        public EmployeeDto Employee { get; set; }
+        
+        public float OrdSubTotal { get; set; }
+        public float OrdTotal { get; set; }
+        public float OrdDiscount { get; set; }
+        public float OrdTax { get; set; }
         public string OrderDeliveryType { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool Status { get; set; }
+        public DateTime OrdCreatedDate { get; set; }
+        public DateTime OrdUpdatedDate { get; set; }
+        public int OrdStatus { get; set; }
     }
 }

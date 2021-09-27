@@ -8,8 +8,8 @@ namespace PizzaCore.Entity.Crust
         [Key]
         public int CrustId { get; set; }
         public string CrustName { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public bool Status { get; set; }
+        public DateTime CrustCreatedDate { get; set; }
+        public DateTime CrustUpdatedDate { get; set; }
+        public int CrustStatus { get; set; }
     }
 }
