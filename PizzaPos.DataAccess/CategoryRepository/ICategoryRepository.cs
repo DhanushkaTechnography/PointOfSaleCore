@@ -7,5 +7,6 @@ namespace PizzaPos.DataAccess.CategoryRepository
     public interface ICategoryRepository
     {
         public Task<EntityEntry<CategoryDto>> SaveCategory(CategoryDto dto);
+        public Task<CategoryDto> FindCategoryById(int id);
     }
 }

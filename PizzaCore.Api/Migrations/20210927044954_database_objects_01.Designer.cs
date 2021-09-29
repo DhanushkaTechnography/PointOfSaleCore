@@ -9,8 +9,8 @@ using PizzaPos.DataAccess.AuthRepository;
 namespace PizzaCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210924040428_Authentication_01")]
-    partial class Authentication_01
+    [Migration("20210927044954_database_objects_01")]
+    partial class database_objects_01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -291,21 +291,55 @@ namespace PizzaCore.Migrations
                     b.Property<string>("Color")
                         .HasColumnType("text");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime");
 
-                    b.Property<string>("IsOtherItemCategory")
-                        .HasColumnType("text");
+                    b.Property<int>("IsOther")
+                        .HasColumnType("int");
 
-                    b.Property<string>("IsPizzaCategory")
-                        .HasColumnType("text");
+                    b.Property<int>("IsPizza")
+                        .HasColumnType("int");
 
-                    b.Property<string>("IsToppingCategory")
-                        .HasColumnType("text");
+                    b.Property<int>("IsTopping")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime");
 
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("PizzaCore.Entity.SubCategory.SubCategoryDto", b =>
+                {
+                    b.Property<int>("SubCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubCatCreatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("SubCatName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SubCatStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubCatUpdatedDate")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("SubCategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -357,6 +391,15 @@ namespace PizzaCore.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PizzaCore.Entity.SubCategory.SubCategoryDto", b =>
+                {
+                    b.HasOne("PizzaCore.Entity.Category.CategoryDto", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaCore.Business.CategoryService;
 using PizzaCore.Entity.AuthenticationDto;
 using PizzaCore.Entity.Category;
+using PizzaCore.Entity.Payload.requests;
+using PizzaCore.Entity.SubCategory;
 
 namespace PizzaCore.Controllers
 {
@@ -22,8 +24,17 @@ namespace PizzaCore.Controllers
         [Route("create_new")]
         public async Task<IActionResult> SaveCategory([FromBody] CategoryDto model)
         {
-            await this._categoryService.SaveCategory(model);
+            await _categoryService.SaveCategory(model);
             return Ok("succeeded.");
+        }
+        
+        [HttpPost]
+        [Route("create_new_sub_category")]
+        public async Task<IActionResult> SaveSubCategory([FromBody] SubCategoryRequest model)
+        {
+            if (await _categoryService.SaveSubCategory(model))
+                return Ok("succeeded.");
+            return BadRequest();
         }
     }
 }

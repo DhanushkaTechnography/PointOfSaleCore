@@ -13,9 +13,7 @@ namespace PizzaCore.Entity.Pizza
         public int PizzaId { get; set; }
         
         public SubCategoryDto SubCategory { get; set; }
-        
-        public CrustDto Crust { get; set; }
-        
+
         public string PizzaName { get; set; }
         public DateTime PizzaCreateDate { get; set; }
         public DateTime PizzaUpdateDate { get; set; }

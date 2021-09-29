@@ -14,6 +14,7 @@ using PizzaCore.Business.Auth;
 using PizzaCore.Business.CategoryService;
 using PizzaPos.DataAccess.AuthRepository;
 using PizzaPos.DataAccess.CategoryRepository;
+using PizzaPos.DataAccess.SubCategoryRepository;
 
 namespace PizzaCore
 {
@@ -40,6 +41,7 @@ namespace PizzaCore
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ISubCategoryRepository, SubCategoryRepository>();
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

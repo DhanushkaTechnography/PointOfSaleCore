@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace PizzaCore.Migrations
 {
-    public partial class Authentication_01 : Migration
+    public partial class database_objects_01 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,10 +55,12 @@ namespace PizzaCore.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     CategoryName = table.Column<string>(type: "text", nullable: true),
                     Color = table.Column<string>(type: "text", nullable: true),
-                    Image = table.Column<string>(type: "text", nullable: true),
-                    IsPizzaCategory = table.Column<string>(type: "text", nullable: true),
-                    IsToppingCategory = table.Column<string>(type: "text", nullable: true),
-                    IsOtherItemCategory = table.Column<string>(type: "text", nullable: true)
+                    IsPizza = table.Column<int>(type: "int", nullable: false),
+                    IsTopping = table.Column<int>(type: "int", nullable: false),
+                    IsOther = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,6 +198,29 @@ namespace PizzaCore.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SubCategories",
+                columns: table => new
+                {
+                    SubCategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    SubCatName = table.Column<string>(type: "text", nullable: true),
+                    SubCatCreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    SubCatUpdatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    SubCatStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubCategories", x => x.SubCategoryId);
+                    table.ForeignKey(
+                        name: "FK_SubCategories_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -232,6 +257,11 @@ namespace PizzaCore.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategories_CategoryId",
+                table: "SubCategories",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -252,16 +282,19 @@ namespace PizzaCore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "IdentityUser");
 
             migrationBuilder.DropTable(
-                name: "IdentityUser");
+                name: "SubCategories");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using PizzaCore.Entity.Crust;
 using PizzaCore.Entity.Order;
 using PizzaCore.Entity.Pizza;
 
@@ -13,6 +14,7 @@ namespace PizzaCore.Entity.PizzaOrderDetails
         
         public OrderDto PizzaOrder { get; set; }
         public PizzaDto Pizza { get; set; }
+        public CrustDto Crust { get; set; }
         
         public float PizzaOrderDetailsPrice { get; set; }
         public DateTime PizzaOrderDetailsCreateDet { get; set; }

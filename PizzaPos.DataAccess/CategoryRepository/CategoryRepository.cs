@@ -21,5 +21,10 @@ namespace PizzaPos.DataAccess.CategoryRepository
             await _dbContext.SaveChangesAsync();
             return cate;
         }
+
+        public async Task<CategoryDto> FindCategoryById(int id)
+        {
+            return _dbContext.Categories.Find(id);
+        }
     }
 }

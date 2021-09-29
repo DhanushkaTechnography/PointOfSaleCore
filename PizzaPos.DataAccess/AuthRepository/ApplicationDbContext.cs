@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PizzaCore.Authentication;
 using PizzaCore.Entity.Category;
+using PizzaCore.Entity.SubCategory;
 
 namespace PizzaPos.DataAccess.AuthRepository
 {
@@ -42,5 +43,6 @@ namespace PizzaPos.DataAccess.AuthRepository
         }
 
         public DbSet<CategoryDto> Categories { get; set; }
+        public DbSet<SubCategoryDto> SubCategories { get; set; }
     }
 }

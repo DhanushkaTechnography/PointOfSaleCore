@@ -9,9 +9,11 @@ namespace PizzaCore.Entity.Category
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string Color { get; set; }
-        public DateTime createdDate { get; set; }
-        public DateTime updatedDate { get; set; }
-        public int status { get; set; }
-        public string CategoryType { get; set; }
+        public int IsPizza { get; set; }
+        public int IsTopping { get;set; }
+        public int IsOther { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public int Status { get; set; }
     }
 }
