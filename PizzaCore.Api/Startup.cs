@@ -9,12 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PizzaCore.Authentication;
 using PizzaCore.Business.Auth;
 using PizzaCore.Business.CategoryService;
+using PizzaCore.Business.ExceptionHandler;
+using PizzaCore.Business.SizesService;
 using PizzaPos.DataAccess.AuthRepository;
 using PizzaPos.DataAccess.CategoryRepository;
+using PizzaPos.DataAccess.SizesRepository;
 using PizzaPos.DataAccess.SubCategoryRepository;
+using PizzaPos.DataAccess.TypeRepository;
 
 namespace PizzaCore
 {
@@ -33,15 +36,23 @@ namespace PizzaCore
             {
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilter));
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("Default"), b=>b.MigrationsAssembly("PizzaCore.Api")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISizesService, SizesService>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ISubCategoryRepository, SubCategoryRepository>();
+            services.AddTransient<ISizesRepository, SizesRepository>();
+            services.AddTransient<ITypeRepository, TypeRepository>();
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

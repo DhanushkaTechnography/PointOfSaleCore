@@ -7,24 +7,30 @@ namespace PizzaCore.Entity.SubCategory
 {
     public class SubCategoryDto
     {
+        [Key]
+        public int SubCategoryId { get; set; }
+        public Types.Types Type { get; set; }
+        public CategoryDto Category { get; set; }
+        public string SubCatName { get; set; }
+        
+        public string SubCatCreatedDate { get; set; }
+        public string SubCatUpdatedDate { get; set; }
+        public int SubCatStatus { get; set; }
+        public int Deleted { get; set; }
+        
         public SubCategoryDto()
         {
                 
         }
-        public SubCategoryDto(int id,CategoryDto category,string name,int status)
+
+        public SubCategoryDto(int subCategoryId, Types.Types type, CategoryDto category, string subCatName, int subCatStatus,int deleted)
         {
-            this.Category = category;
-            this.SubCatName = name;
-            this.SubCategoryId = id;
-            this.SubCatStatus = status;
+            SubCategoryId = subCategoryId;
+            Type = type;
+            Category = category;
+            SubCatName = subCatName;
+            SubCatStatus = subCatStatus;
+            Deleted = deleted;
         }
-        [Key]
-        public int SubCategoryId { get; set; }
-        public CategoryDto Category { get; set; }
-        public string SubCatName { get; set; }
-        public DateTime SubCatCreatedDate { get; set; }
-        public DateTime SubCatUpdatedDate { get; set; }
-        public int SubCatStatus { get; set; }
-        
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace PizzaCore.Authentication
+namespace PizzaPos.DataAccess.AuthRepository
 {
     public class ApplicationUser:IdentityUser
     {

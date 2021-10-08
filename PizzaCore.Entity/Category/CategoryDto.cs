@@ -12,8 +12,13 @@ namespace PizzaCore.Entity.Category
         public int IsPizza { get; set; }
         public int IsTopping { get;set; }
         public int IsOther { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public string CreatedDate { get; set; }
+        public string UpdatedDate { get; set; }
         public int Status { get; set; }
+        public int Deleted { get; set; }
+
+        public CategoryDto()
+        {
+        }
     }
 }

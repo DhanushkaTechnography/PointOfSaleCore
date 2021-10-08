@@ -1,56 +1,40 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using PizzaCore.Authentication;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using PizzaCore.Entity.AuthenticationDto;
 
 namespace PizzaPos.DataAccess.AuthRepository
 {
-    public class AuthRepository:IAuthRepository
+    public class AuthRepository : IAuthRepository
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AuthRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthRepository(ApplicationDbContext dbContext)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _dbContext = dbContext;
         }
 
-        public async Task<IdentityResult> RegisterUser(ApplicationUser user, string password)
+        public Employee CheckEmployeeId(int id)
         {
-            return await _userManager.CreateAsync(user, password);
+            return _dbContext.Employees.Include(r => r.Role).First(employee => employee.EmployeeId == id);
         }
 
-        public async Task<bool> CreateNewRole(string role)
+        public Employee SaveNewEmployee(Employee employee)
         {
-           await _roleManager.CreateAsync(new IdentityRole(role));
-           return true;
+            var entity = _dbContext.Add(employee).Entity;
+            _dbContext.SaveChanges();
+            return entity;
         }
 
-        public async Task<IdentityResult> AddRoles(ApplicationUser user, string role)
+        public EmployeeRole checkRole(int id)
         {
-           return await _userManager.AddToRoleAsync(user, role);
+            return _dbContext.EmployeeRoles.Find(id);
         }
 
-        public async Task<ApplicationUser> GetUserByName(string name)
+        public EmployeeRole SaveNewRole(EmployeeRole role)
         {
-            return await _userManager.FindByNameAsync(name);
-        }
-
-        public async Task<IList<string>> GetUserRoles(ApplicationUser user)
-        {
-            return await _userManager.GetRolesAsync(user);
-        }
-
-        public async Task<bool> IsUserNameExist(string userName)
-        {
-            return await _userManager.FindByNameAsync(userName) != null;
-        }
-
-        public async Task<bool> IsRoleExist(string role)
-        {
-            return await _roleManager.FindByNameAsync(role) != null;
+            var entity = _dbContext.Add(role).Entity;
+            _dbContext.SaveChanges();
+            return entity;
         }
     }
 }

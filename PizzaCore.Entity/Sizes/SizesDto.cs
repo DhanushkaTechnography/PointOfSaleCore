@@ -7,10 +7,10 @@ namespace PizzaCore.Entity.Sizes
     {
         [Key]
         public int SizesId { get; set; }
-        
         public string SizeName { get; set; }
-        public DateTime SizeCreatedDate { get; set; }
-        public DateTime SizeUpdatedDate { get; set; }
+        public string SizeCreatedDate { get; set; }
+        public string SizeUpdatedDate { get; set; }
         public int SizeStatus { get; set; }
+        public int Deleted { get; set; }
     }
 }

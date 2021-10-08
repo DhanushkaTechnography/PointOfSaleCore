@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using PizzaCore.Authentication;
 using PizzaCore.Entity.AuthenticationDto;
-using PizzaCore.Entity.Payload;
+using PizzaCore.Entity.Payload.requests;
 using PizzaPos.DataAccess.AuthRepository;
 
 namespace PizzaCore.Business.Auth
@@ -20,63 +17,51 @@ namespace PizzaCore.Business.Auth
 
         private readonly IAuthRepository _authRepository;
 
-        public AuthService(IConfiguration configuration, IAuthRepository authRepository)
+        public AuthService(IConfiguration configuration, IAuthRepository authRepository, ApplicationDbContext dbContext)
         {
             this._configuration = configuration;
             _authRepository = authRepository;
         }
 
-        public async Task<StatusCode> RegisterUsers(UserRegisterModel model)
+        public bool EmployeeRegistration(NewEmployeeRequest employee)
         {
-            if (_authRepository.IsUserNameExist(model.UserName).Result)
-            {
-                return new StatusCode(409, new Response
-                {
-                    Status = "Error", Message = "User Name Already Registered"
-                });
-            }
-
-            ApplicationUser user = new ApplicationUser()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
-            };
-            if (_authRepository.RegisterUser(user, model.Password).Result == null)
-            {
-                return new StatusCode(500,
-                    new Response
-                    {
-                        Status = "Error",
-                        Message =
-                            "Sorry! We're having some technical difficulties with new registrations. Please try again later"
-                    });
-            }
-
-            if (!await _authRepository.IsRoleExist(model.Role))
-                await _authRepository.CreateNewRole(model.Role);
-            await _authRepository.AddRoles(user, model.Role);
-
-            return new StatusCode(200,
-                new Response {Status = "Success", Message = "Registration Completed!"});
+            Employee employee1 = new Employee(employee.EmployeeId, employee.FirstName, employee.LastName);
+            employee1.Role = getEmployeeRole(employee.Role);
+            return _authRepository.SaveNewEmployee(employee1) != null;
         }
-
-        public async Task<JwtSecurityToken> CheckLogin(LoginModel model)
+        private EmployeeRole getEmployeeRole(int employeeRole)
         {
-            var byName = await _authRepository.GetUserByName(model.Email);
-            if (byName != null)
+            var role = _authRepository.checkRole(employeeRole);
+            if (role == null)
             {
-                var userRoles = await _authRepository.GetUserRoles(byName);
+                role = new EmployeeRole();
+                role.Id = employeeRole;
+                role.Name = employeeRole switch
+                {
+                    1 => UserRoles.SuperAdmin,
+                    2 => UserRoles.Admin,
+                    3 => UserRoles.Manager,
+                    4 => UserRoles.Cashier,
+                    5 => UserRoles.Driver,
+                    6 => UserRoles.Customer,
+                    _ => role.Name
+                };
+                return _authRepository.SaveNewRole(role);
+            }
+            return role;
+        }
+        
+        public JwtSecurityToken AccessFromEmployeeId(int id)
+        {
+            var employee = _authRepository.CheckEmployeeId(id);
+            if (employee !=null)
+            {
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, byName.UserName),
+                    new Claim(ClaimTypes.Name, employee.FirstName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
-
+                authClaims.Add(new Claim(ClaimTypes.Role,employee.Role.Name));
                 var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
                 var token = new JwtSecurityToken(
                     issuer: _configuration["JWT:ValidIssuer"],
@@ -88,6 +73,11 @@ namespace PizzaCore.Business.Auth
                 return token;
             }
             return null;
+        }
+
+        public Employee GetEmployeeByEmpId(int id)
+        {
+            return _authRepository.CheckEmployeeId(id);
         }
     }
 }
