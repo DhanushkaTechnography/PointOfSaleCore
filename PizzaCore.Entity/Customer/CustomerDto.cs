@@ -9,13 +9,11 @@ namespace PizzaCore.Entity.Customer
         public int CusId { get; set; }
         public string CusName { get; set; }
         public string CusContact { get; set; }
-        public string CusStreet { get; set; }
+        public string CusAddress { get; set; }
         public string CusCity { get; set; }
         public string CusCountry { get; set; }
-        public string CusEmail { get; set; }
-        public string CusType { get; set; }
-        public DateTime CusCreatedDate { get; set; }
-        public DateTime CusUpdatedDate { get; set; }
+        public string CusCreatedDate { get; set; }
+        public string CusUpdatedDate { get; set; }
         public int CusStatus { get; set; }
     }
 }

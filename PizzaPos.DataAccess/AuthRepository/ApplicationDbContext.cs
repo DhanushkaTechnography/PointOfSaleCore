@@ -3,8 +3,21 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PizzaCore.Entity.AuthenticationDto;
 using PizzaCore.Entity.Category;
+using PizzaCore.Entity.Crust;
+using PizzaCore.Entity.CrustPrices;
+using PizzaCore.Entity.Customer;
+using PizzaCore.Entity.CustomerMembership;
+using PizzaCore.Entity.DeliveryOptions;
+using PizzaCore.Entity.Ingredients;
+using PizzaCore.Entity.Membership;
+using PizzaCore.Entity.Order;
+using PizzaCore.Entity.Pizza;
+using PizzaCore.Entity.PizzaOrderDetails;
+using PizzaCore.Entity.PizzaSizes;
 using PizzaCore.Entity.Sizes;
 using PizzaCore.Entity.SubCategory;
+using PizzaCore.Entity.ToppingPrices;
+using PizzaCore.Entity.Toppings;
 using PizzaCore.Entity.Types;
 
 namespace PizzaPos.DataAccess.AuthRepository
@@ -49,5 +62,20 @@ namespace PizzaPos.DataAccess.AuthRepository
         public DbSet<SubCategoryDto> SubCategories { get; set; }
         public DbSet<SizesDto> Sizes { get; set; }
         public DbSet<Types> Types { get; set; }
+        public DbSet<ToppingsDto> Toppings { get; set; }
+        public DbSet<ToppingPricesDto> ToppingPrices { get; set; }
+        public DbSet<CrustDto> Crust { get; set; }
+        public DbSet<CrustPricesDto> CrustPrices { get; set; }
+        public DbSet<PizzaDto> PizzaDto { get; set; }
+        public DbSet<PizzaSizesDto> PizzaPrice { get; set; }
+        public DbSet<IngredientsDto> Ingredients { get; set; }
+        public DbSet<MemberShipDto> MemberShip { get; set; }
+        public DbSet<CustomerDto> CustomerDto { get; set; }
+        public DbSet<CustomerMembership> CustomerMemberShip { get; set; }
+        public DbSet<DeliveryOptionDto> DeliveryOption { get; set; }
+        public DbSet<OrderDto> Orders { get; set; }
+        public DbSet<OrderStatusDto> OrderStatus { get; set; }
+        public DbSet<PizzaOrderDetailsDto> OrderDetailsPizza { get; set; }
+        public DbSet<ExtraToppings> ExtraTopping { get; set; }
     }
 }

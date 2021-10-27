@@ -11,14 +11,26 @@ namespace PizzaCore.Entity.ToppingPrices
     {
         [Key]
         public int ToppingPriceId { get; set; }
-        
         public ToppingsDto Topping { get; set; }
-        
         public SizesDto ToppingSize { get; set; }
-        
         public double ToppingPrice { get; set; }
-        public DateTime ToppingPriceCreatedDate { get; set; }
-        public DateTime ToppingPriceUpdatedDate { get; set; }
+        public string ToppingPriceCreatedDate { get; set; }
+        public string ToppingPriceUpdatedDate { get; set; }
         public int ToppingPriceStatus { get; set; }
+
+        public ToppingPricesDto()
+        {
+        }
+
+        public ToppingPricesDto(int toppingPriceId, ToppingsDto topping, SizesDto toppingSize, double toppingPrice, string toppingPriceCreatedDate, string toppingPriceUpdatedDate, int toppingPriceStatus)
+        {
+            ToppingPriceId = toppingPriceId;
+            Topping = topping;
+            ToppingSize = toppingSize;
+            ToppingPrice = toppingPrice;
+            ToppingPriceCreatedDate = toppingPriceCreatedDate;
+            ToppingPriceUpdatedDate = toppingPriceUpdatedDate;
+            ToppingPriceStatus = toppingPriceStatus;
+        }
     }
 }

@@ -33,8 +33,12 @@ namespace PizzaCore.Business.CategoryService
 
         public async Task<bool> SaveSubCategory(SubCategoryRequest dto)
         {
-            var byId = _subCategoryRepository.GetById(dto.SubCategoryId);
-            if (byId == null)
+            SubCategoryDto byId;
+            try
+            {
+                byId = _subCategoryRepository.GetById(dto.SubCategoryId);
+            }
+            catch (Exception e)
             {
                 byId = new SubCategoryDto(dto.SubCategoryId, _typeRepository.SearchById(dto.Type),
                     _categoryRepository.FindCategoryById(dto.Category).Result,
@@ -109,13 +113,28 @@ namespace PizzaCore.Business.CategoryService
             {
                 foreach (var sub in _subCategoryRepository.GetCategoryByMain(main))
                 {
-                    list.Add(new SubCategoryResponse(sub.SubCategoryId,sub.Type.TypeId,
-                        sub.Type.TypeName,sub.Category.CategoryId,sub.Category.CategoryName,
-                        sub.SubCatName,sub.SubCatCreatedDate,sub.SubCatUpdatedDate,sub.SubCatStatus,
+                    list.Add(new SubCategoryResponse(sub.SubCategoryId, sub.Type.TypeId,
+                        sub.Type.TypeName, sub.Category.CategoryId, sub.Category.CategoryName,
+                        sub.SubCatName, sub.SubCatCreatedDate, sub.SubCatUpdatedDate, sub.SubCatStatus,
                         sub.Deleted));
                 }
             }
 
+            return list;
+        }
+
+        public List<CategoryDto> GetPizzaCategoryList()
+        {
+            return _categoryRepository.GetPizzaCategories();
+        }
+
+        public List<SubCategoryResponse> GetAllByMain(int cate)
+        {
+            List<SubCategoryResponse> list = new List<SubCategoryResponse>();
+            foreach (var dto in _subCategoryRepository.GetCategoryByMain(_categoryRepository.FindCategoryById(cate).Result))
+                list.Add(new SubCategoryResponse(dto.SubCategoryId, dto.Type.TypeId, dto.Type.TypeName,
+                    dto.Category.CategoryId, dto.Category.CategoryName, dto.SubCatName, dto.SubCatCreatedDate,
+                    dto.SubCatUpdatedDate, dto.SubCatStatus, dto.Deleted));
             return list;
         }
     }

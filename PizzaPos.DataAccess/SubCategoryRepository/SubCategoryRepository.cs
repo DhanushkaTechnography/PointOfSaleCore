@@ -29,7 +29,8 @@ namespace PizzaPos.DataAccess.SubCategoryRepository
 
         public SubCategoryDto GetById(int id)
         {
-            return _dbContext.SubCategories.Find(id);
+            return _dbContext.SubCategories.Include(dto => dto.Category).Include(dto => dto.Type)
+                .First(dto => dto.SubCategoryId == id);
         }
 
         public List<SubCategoryDto> SubCategoryList()
@@ -49,7 +50,8 @@ namespace PizzaPos.DataAccess.SubCategoryRepository
         public List<SubCategoryDto> GetCategoryByMain(CategoryDto dto)
         {
             return _dbContext.SubCategories.Include(c => c.Category)
-                .Include(t => t.Type).Where(categoryDto => categoryDto.Category == dto && categoryDto.Deleted == 0).ToList();
+                .Include(t => t.Type).Where(categoryDto => categoryDto.Category == dto && categoryDto.Deleted == 0)
+                .ToList();
         }
     }
 }

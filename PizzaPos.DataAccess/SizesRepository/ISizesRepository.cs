@@ -7,7 +7,7 @@ namespace PizzaPos.DataAccess.SizesRepository
     {
         public bool SaveItemSize(SizesDto dto);
         public List<SizesDto> SizeList();
-
         public List<SizesDto> GetActiveSizes();
+        public SizesDto GetById(int id);
     }
 }

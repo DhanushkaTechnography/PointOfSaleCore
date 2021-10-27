@@ -68,5 +68,10 @@ namespace PizzaPos.DataAccess.CategoryRepository
             return _dbContext.Categories.Where(dto => dto.IsTopping == 1 && dto.Deleted == 0).ToList();
             
         }
+
+        public List<CategoryDto> GetPizzaCategories()
+        {
+            return _dbContext.Categories.Where(dto => dto.IsPizza == 1 && dto.Deleted == 0).ToList();
+        }
     }
 }

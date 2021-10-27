@@ -46,5 +46,10 @@ namespace PizzaPos.DataAccess.SizesRepository
         {
             return new List<SizesDto>(_dbContext.Sizes.Where(dto => dto.Deleted != 1 && dto.SizeStatus == 1));
         }
+
+        public SizesDto GetById(int id)
+        {
+            return _dbContext.Sizes.Find(id);
+        }
     }
 }

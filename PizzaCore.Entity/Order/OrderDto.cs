@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using PizzaCore.Entity.Customer;
+using PizzaCore.Entity.DeliveryOptions;
 using PizzaCore.Entity.Employee;
 
 namespace PizzaCore.Entity.Order
@@ -9,18 +10,52 @@ namespace PizzaCore.Entity.Order
     {
         [Key]
         public int OrderId { get; set; }
-        
         public CustomerDto Customer { get; set; }
-        
-        public EmployeeDto Employee { get; set; }
-        
+        public AuthenticationDto.Employee Employee { get; set; }
+        public DeliveryOptionDto DeliveryOption { get; set; }
+        public string DateWanted { get; set; }
+        public string TimeWanted { get; set; }
         public float OrdSubTotal { get; set; }
-        public float OrdTotal { get; set; }
         public float OrdDiscount { get; set; }
         public float OrdTax { get; set; }
-        public string OrderDeliveryType { get; set; }
-        public DateTime OrdCreatedDate { get; set; }
-        public DateTime OrdUpdatedDate { get; set; }
-        public int OrdStatus { get; set; }
+        public float OrdTotal { get; set; }
+        public string OrdCreatedDate { get; set; }
+        public string OrdUpdatedDate { get; set; }
+        public string Note { get; set; }
+
+        public OrderDto()
+        {
+        }
+
+        public OrderDto(int orderId, CustomerDto customer, AuthenticationDto.Employee employee, DeliveryOptionDto deliveryOption, string dateWanted, string timeWanted, float ordSubTotal, float ordDiscount, float ordTax, float ordTotal, string ordCreatedDate, string ordUpdatedDate,string note)
+        {
+            OrderId = orderId;
+            Customer = customer;
+            Employee = employee;
+            DeliveryOption = deliveryOption;
+            DateWanted = dateWanted;
+            TimeWanted = timeWanted;
+            OrdSubTotal = ordSubTotal;
+            OrdDiscount = ordDiscount;
+            OrdTax = ordTax;
+            OrdTotal = ordTotal;
+            OrdCreatedDate = ordCreatedDate;
+            OrdUpdatedDate = ordUpdatedDate;
+            Note = note;
+        }
+        public void UpdateData(CustomerDto customer, AuthenticationDto.Employee employee, DeliveryOptionDto deliveryOption, string dateWanted, string timeWanted, float ordSubTotal, float ordDiscount, float ordTax, float ordTotal,string ordUpdatedDate,string note)
+        {
+            Customer = customer;
+            Employee = employee;
+            DeliveryOption = deliveryOption;
+            DateWanted = dateWanted;
+            TimeWanted = timeWanted;
+            OrdSubTotal = ordSubTotal;
+            OrdDiscount = ordDiscount;
+            OrdTax = ordTax;
+            OrdTotal = ordTotal;
+            OrdUpdatedDate = ordUpdatedDate;
+            Note = note;
+        }
     }
 }

@@ -69,6 +69,23 @@ namespace PizzaCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Crust",
+                columns: table => new
+                {
+                    CrustId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    CrustName = table.Column<string>(type: "text", nullable: true),
+                    CrustCreatedDate = table.Column<string>(type: "text", nullable: true),
+                    CrustUpdatedDate = table.Column<string>(type: "text", nullable: true),
+                    CrustStatus = table.Column<int>(type: "int", nullable: false),
+                    Deleted = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Crust", x => x.CrustId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeRoles",
                 columns: table => new
                 {
@@ -269,6 +286,36 @@ namespace PizzaCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CrustPrices",
+                columns: table => new
+                {
+                    CrustPriceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    CrustId = table.Column<int>(type: "int", nullable: true),
+                    CrustSizeSizesId = table.Column<int>(type: "int", nullable: true),
+                    CrustPrice = table.Column<double>(type: "double", nullable: false),
+                    CrustPriceCreatedDate = table.Column<string>(type: "text", nullable: true),
+                    CrustPriceUpdatedDate = table.Column<string>(type: "text", nullable: true),
+                    CrustPriceStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CrustPrices", x => x.CrustPriceId);
+                    table.ForeignKey(
+                        name: "FK_CrustPrices_Crust_CrustId",
+                        column: x => x.CrustId,
+                        principalTable: "Crust",
+                        principalColumn: "CrustId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CrustPrices_Sizes_CrustSizeSizesId",
+                        column: x => x.CrustSizeSizesId,
+                        principalTable: "Sizes",
+                        principalColumn: "SizesId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubCategories",
                 columns: table => new
                 {
@@ -296,6 +343,142 @@ namespace PizzaCore.Migrations
                         column: x => x.TypeId,
                         principalTable: "Types",
                         principalColumn: "TypeId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PizzaDto",
+                columns: table => new
+                {
+                    PizzaId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: true),
+                    PizzaName = table.Column<string>(type: "text", nullable: true),
+                    PizzaColor = table.Column<string>(type: "text", nullable: true),
+                    PizzaCreateDate = table.Column<string>(type: "text", nullable: true),
+                    PizzaUpdateDate = table.Column<string>(type: "text", nullable: true),
+                    PizzaStatus = table.Column<int>(type: "int", nullable: false),
+                    Deleted = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PizzaDto", x => x.PizzaId);
+                    table.ForeignKey(
+                        name: "FK_PizzaDto_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
+                        principalTable: "SubCategories",
+                        principalColumn: "SubCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Toppings",
+                columns: table => new
+                {
+                    ToppingsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ToppingName = table.Column<string>(type: "text", nullable: true),
+                    CategorySubCategoryId = table.Column<int>(type: "int", nullable: true),
+                    ToppingCreatedDate = table.Column<string>(type: "text", nullable: true),
+                    ToppingUpdatedDate = table.Column<string>(type: "text", nullable: true),
+                    ToppingStatus = table.Column<int>(type: "int", nullable: false),
+                    Deleted = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Toppings", x => x.ToppingsId);
+                    table.ForeignKey(
+                        name: "FK_Toppings_SubCategories_CategorySubCategoryId",
+                        column: x => x.CategorySubCategoryId,
+                        principalTable: "SubCategories",
+                        principalColumn: "SubCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PizzaPrice",
+                columns: table => new
+                {
+                    PizzaSizeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    PizzaId1 = table.Column<int>(type: "int", nullable: true),
+                    SizeIdSizesId = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<double>(type: "double", nullable: false),
+                    CreateDate = table.Column<string>(type: "text", nullable: true),
+                    UpdateDate = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PizzaPrice", x => x.PizzaSizeId);
+                    table.ForeignKey(
+                        name: "FK_PizzaPrice_PizzaDto_PizzaId1",
+                        column: x => x.PizzaId1,
+                        principalTable: "PizzaDto",
+                        principalColumn: "PizzaId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PizzaPrice_Sizes_SizeIdSizesId",
+                        column: x => x.SizeIdSizesId,
+                        principalTable: "Sizes",
+                        principalColumn: "SizesId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ingredients",
+                columns: table => new
+                {
+                    IngredientsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    PizzaId1 = table.Column<int>(type: "int", nullable: true),
+                    ToppingIdToppingsId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredients", x => x.IngredientsId);
+                    table.ForeignKey(
+                        name: "FK_Ingredients_PizzaDto_PizzaId1",
+                        column: x => x.PizzaId1,
+                        principalTable: "PizzaDto",
+                        principalColumn: "PizzaId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ingredients_Toppings_ToppingIdToppingsId",
+                        column: x => x.ToppingIdToppingsId,
+                        principalTable: "Toppings",
+                        principalColumn: "ToppingsId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ToppingPrices",
+                columns: table => new
+                {
+                    ToppingPriceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ToppingsId = table.Column<int>(type: "int", nullable: true),
+                    ToppingSizeSizesId = table.Column<int>(type: "int", nullable: true),
+                    ToppingPrice = table.Column<double>(type: "double", nullable: false),
+                    ToppingPriceCreatedDate = table.Column<string>(type: "text", nullable: true),
+                    ToppingPriceUpdatedDate = table.Column<string>(type: "text", nullable: true),
+                    ToppingPriceStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ToppingPrices", x => x.ToppingPriceId);
+                    table.ForeignKey(
+                        name: "FK_ToppingPrices_Sizes_ToppingSizeSizesId",
+                        column: x => x.ToppingSizeSizesId,
+                        principalTable: "Sizes",
+                        principalColumn: "SizesId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ToppingPrices_Toppings_ToppingsId",
+                        column: x => x.ToppingsId,
+                        principalTable: "Toppings",
+                        principalColumn: "ToppingsId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -337,9 +520,44 @@ namespace PizzaCore.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CrustPrices_CrustId",
+                table: "CrustPrices",
+                column: "CrustId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CrustPrices_CrustSizeSizesId",
+                table: "CrustPrices",
+                column: "CrustSizeSizesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_RoleId",
                 table: "Employees",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredients_PizzaId1",
+                table: "Ingredients",
+                column: "PizzaId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingredients_ToppingIdToppingsId",
+                table: "Ingredients",
+                column: "ToppingIdToppingsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PizzaDto_SubCategoryId",
+                table: "PizzaDto",
+                column: "SubCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PizzaPrice_PizzaId1",
+                table: "PizzaPrice",
+                column: "PizzaId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PizzaPrice_SizeIdSizesId",
+                table: "PizzaPrice",
+                column: "SizeIdSizesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubCategories_CategoryId",
@@ -350,6 +568,21 @@ namespace PizzaCore.Migrations
                 name: "IX_SubCategories_TypeId",
                 table: "SubCategories",
                 column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ToppingPrices_ToppingsId",
+                table: "ToppingPrices",
+                column: "ToppingsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ToppingPrices_ToppingSizeSizesId",
+                table: "ToppingPrices",
+                column: "ToppingSizeSizesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Toppings_CategorySubCategoryId",
+                table: "Toppings",
+                column: "CategorySubCategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -370,16 +603,22 @@ namespace PizzaCore.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CrustPrices");
+
+            migrationBuilder.DropTable(
                 name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "IdentityUser");
 
             migrationBuilder.DropTable(
-                name: "Sizes");
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
-                name: "SubCategories");
+                name: "PizzaPrice");
+
+            migrationBuilder.DropTable(
+                name: "ToppingPrices");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -388,7 +627,22 @@ namespace PizzaCore.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Crust");
+
+            migrationBuilder.DropTable(
                 name: "EmployeeRoles");
+
+            migrationBuilder.DropTable(
+                name: "PizzaDto");
+
+            migrationBuilder.DropTable(
+                name: "Sizes");
+
+            migrationBuilder.DropTable(
+                name: "Toppings");
+
+            migrationBuilder.DropTable(
+                name: "SubCategories");
 
             migrationBuilder.DropTable(
                 name: "Categories");

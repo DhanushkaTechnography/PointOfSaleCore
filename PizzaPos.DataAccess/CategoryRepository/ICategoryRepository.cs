@@ -11,11 +11,9 @@ namespace PizzaPos.DataAccess.CategoryRepository
     {
         public Task<EntityEntry<CategoryDto>> SaveCategory(CategoryDto dto);
         public Task<CategoryDto> FindCategoryById(int id);
-
         public List<CategoryDto> MainCategoryBasic();
-
         public List<MainCategoryResponse> MainCategoryList();
-
         public List<CategoryDto> GetCategoriesForTopping();
+        public List<CategoryDto> GetPizzaCategories();
     }
 }
