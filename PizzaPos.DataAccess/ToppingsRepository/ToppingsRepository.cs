@@ -38,5 +38,14 @@ namespace PizzaPos.DataAccess.ToppingsRepository
         {
             return _dbContext.Toppings.Include(dto => dto.Category).ToList();
         }
+
+        public int GetToppingTypeById(int toppingToppingsId)
+        {
+            var toppingsDto = _dbContext.Toppings.Include(dto => dto.Category)
+                .First(dto => dto.ToppingsId == toppingToppingsId);
+            var subCategoryDto = _dbContext.SubCategories.Include(dto => dto.Type)
+                .First(dto => dto.SubCategoryId == toppingsDto.Category.SubCategoryId);
+            return subCategoryDto.Type.TypeId;
+        }
     }
 }

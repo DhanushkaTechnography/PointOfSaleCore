@@ -4,6 +4,7 @@ namespace PizzaCore.Entity.Payload
     {
         public int PriceId { get; set; }
         public int ItemId { get; set; }
+        public int TypeId { get; set; }
         public int SizeId { get; set; }
         public string ItemName { get; set; }
         public string SizeName { get; set; }
@@ -17,6 +18,17 @@ namespace PizzaCore.Entity.Payload
         {
             PriceId = priceId;
             ItemId = itemId;
+            SizeId = sizeId;
+            ItemName = itemName;
+            SizeName = sizeName;
+            Price = price;
+        }
+
+        public ItemPriceResponse(int priceId, int itemId, int typeId, int sizeId, string itemName, string sizeName, double price)
+        {
+            PriceId = priceId;
+            ItemId = itemId;
+            TypeId = typeId;
             SizeId = sizeId;
             ItemName = itemName;
             SizeName = sizeName;

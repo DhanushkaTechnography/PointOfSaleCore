@@ -22,12 +22,13 @@ namespace PizzaCore.Entity.Order
         public string OrdCreatedDate { get; set; }
         public string OrdUpdatedDate { get; set; }
         public string Note { get; set; }
+        public string PayBy { get; set; }
 
         public OrderDto()
         {
         }
 
-        public OrderDto(int orderId, CustomerDto customer, AuthenticationDto.Employee employee, DeliveryOptionDto deliveryOption, string dateWanted, string timeWanted, float ordSubTotal, float ordDiscount, float ordTax, float ordTotal, string ordCreatedDate, string ordUpdatedDate,string note)
+        public OrderDto(int orderId, CustomerDto customer, AuthenticationDto.Employee employee, DeliveryOptionDto deliveryOption, string dateWanted, string timeWanted, float ordSubTotal, float ordDiscount, float ordTax, float ordTotal, string ordCreatedDate, string ordUpdatedDate,string note,string payBy)
         {
             OrderId = orderId;
             Customer = customer;
@@ -42,8 +43,9 @@ namespace PizzaCore.Entity.Order
             OrdCreatedDate = ordCreatedDate;
             OrdUpdatedDate = ordUpdatedDate;
             Note = note;
+            PayBy = payBy;
         }
-        public void UpdateData(CustomerDto customer, AuthenticationDto.Employee employee, DeliveryOptionDto deliveryOption, string dateWanted, string timeWanted, float ordSubTotal, float ordDiscount, float ordTax, float ordTotal,string ordUpdatedDate,string note)
+        public void UpdateData(CustomerDto customer, AuthenticationDto.Employee employee, DeliveryOptionDto deliveryOption, string dateWanted, string timeWanted, float ordSubTotal, float ordDiscount, float ordTax, float ordTotal,string ordUpdatedDate,string note,string payBy)
         {
             Customer = customer;
             Employee = employee;
@@ -56,6 +58,7 @@ namespace PizzaCore.Entity.Order
             OrdTotal = ordTotal;
             OrdUpdatedDate = ordUpdatedDate;
             Note = note;
+            PayBy = payBy;
         }
     }
 }

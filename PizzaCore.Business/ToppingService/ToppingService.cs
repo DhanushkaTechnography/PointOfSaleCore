@@ -102,7 +102,7 @@ namespace PizzaCore.Business.ToppingService
         {
             List<ItemPriceResponse> list = new List<ItemPriceResponse>();
             foreach (var prices in _toppingPricesRepository.GetToppingPriceBySize(_sizeRepository.GetById(id)))
-                list.Add(new ItemPriceResponse(prices.ToppingPriceId,prices.Topping.ToppingsId,prices.ToppingSize.SizesId,prices.Topping.ToppingName,prices.ToppingSize.SizeName,prices.ToppingPrice));
+                list.Add(new ItemPriceResponse(prices.ToppingPriceId,prices.Topping.ToppingsId,_toppingsRepository.GetToppingTypeById(prices.Topping.ToppingsId),prices.ToppingSize.SizesId,prices.Topping.ToppingName,prices.ToppingSize.SizeName,prices.ToppingPrice));
             return list;
         }
     }

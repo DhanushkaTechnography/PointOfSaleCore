@@ -14,6 +14,7 @@ using PizzaCore.Business.CategoryService;
 using PizzaCore.Business.CrustService;
 using PizzaCore.Business.CustomerService;
 using PizzaCore.Business.ExceptionHandler;
+using PizzaCore.Business.ItemService;
 using PizzaCore.Business.OrderService;
 using PizzaCore.Business.PizzaService;
 using PizzaCore.Business.SizesService;
@@ -25,7 +26,9 @@ using PizzaPos.DataAccess.CrustRepository;
 using PizzaPos.DataAccess.CustomerRepository;
 using PizzaPos.DataAccess.DeliveryMethodRepository;
 using PizzaPos.DataAccess.EmployeeRepository;
+using PizzaPos.DataAccess.ItemRepository;
 using PizzaPos.DataAccess.MemberShipRepository;
+using PizzaPos.DataAccess.OrderDetailsRepository;
 using PizzaPos.DataAccess.OrderRepository;
 using PizzaPos.DataAccess.PizzaIngredientsRepository;
 using PizzaPos.DataAccess.PizzaOrderDetailsRepository;
@@ -72,6 +75,7 @@ namespace PizzaCore
             services.AddScoped<IPizzaService, PizzaService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IItemService, ItemService>();
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ISubCategoryRepository, SubCategoryRepository>();
@@ -91,6 +95,8 @@ namespace PizzaCore
             services.AddTransient<IPizzaOrderDetailsRepository, PizzaOrderDetailsRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
+            services.AddTransient<IOrderDetailsRepository, OrderDetailsRepository>();
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

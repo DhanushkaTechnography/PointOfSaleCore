@@ -47,15 +47,21 @@ namespace PizzaCore.Business.CustomerService
         {
             var customerDto = _customerRepository.SearchByContact(customer);
             var memberShipDto = _memberShipRepository.FindMembershipById(membership);
-            var m = _customerRepository.GetMembershipByCustomer(customerDto);
-            if (m != null)
+            try
             {
-                m.Status = 0;
-                m.UsedUntil = $"{DateTime.Now:d/M/yyyy HH:mm:ss}";
-                _customerRepository.UpdateMemberShip(m);
+                var m = _customerRepository.GetMembershipByCustomer(customerDto);
+                if (m != null)
+                {
+                    m.Status = 0;
+                    m.UsedUntil = $"{DateTime.Now:d/M/yyyy HH:mm:ss}";
+                    _customerRepository.UpdateMemberShip(m);
+                }
             }
-            m = new CustomerMembership(0, customerDto, memberShipDto, $"{DateTime.Now:d/M/yyyy HH:mm:ss}", "--", 1);
-            return _customerRepository.AddNewMemberShip(m);
+            catch (InvalidOperationException e)
+            {
+                // ignored
+            }
+            return _customerRepository.AddNewMemberShip(new CustomerMembership(0, customerDto, memberShipDto, $"{DateTime.Now:d/M/yyyy HH:mm:ss}", "--", 1));
         }
 
         public CustomerMembership GetCustomerActiveMembership(string customer)
@@ -63,7 +69,7 @@ namespace PizzaCore.Business.CustomerService
             return _customerRepository.GetMembershipByCustomer(_customerRepository.SearchByContact(customer));
         }
 
-        public bool SaveCustomer(CustomerDto dto)
+        public int SaveCustomer(CustomerDto dto)
         {
             CustomerDto byContact;
             try
@@ -74,7 +80,9 @@ namespace PizzaCore.Business.CustomerService
             {
                 dto.CusCreatedDate = $"{DateTime.Now:d/M/yyyy HH:mm:ss}";
                 dto.CusUpdatedDate = $"{DateTime.Now:d/M/yyyy HH:mm:ss}";
-                return _customerRepository.SaveCustomer(dto: dto);
+                var customer = _customerRepository.SaveCustomer(dto: dto);
+                AssignMembership(dto.CusContact, 1);
+                return customer;
             }
             byContact.CusAddress = dto.CusAddress;
             byContact.CusCity = dto.CusCity;
@@ -87,7 +95,14 @@ namespace PizzaCore.Business.CustomerService
 
         public CustomerDto SearchByContact(string contact)
         {
-            return _customerRepository.SearchByContact(contact);
+            try
+            {
+                return _customerRepository.SearchByContact(contact);
+            }
+            catch (InvalidOperationException e)
+            {
+                return null;
+            }
         }
 
         public List<CustomerDto> AllCustomers()

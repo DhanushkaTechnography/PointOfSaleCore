@@ -9,8 +9,8 @@ using PizzaPos.DataAccess.AuthRepository;
 namespace PizzaCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211026040700_m2")]
-    partial class m2
+    [Migration("20211111082044_paymentMethod")]
+    partial class paymentMethod
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -459,6 +459,61 @@ namespace PizzaCore.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("PizzaCore.Entity.Item.Item", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("PizzaCore.Entity.Item.ItemDetails", b =>
+                {
+                    b.Property<int>("ItemPriceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreateDate")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<int?>("SizeIdSizesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdateDate")
+                        .HasColumnType("text");
+
+                    b.HasKey("ItemPriceId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SizeIdSizesId");
+
+                    b.ToTable("ItemPrices");
+                });
+
             modelBuilder.Entity("PizzaCore.Entity.Membership.MemberShipDto", b =>
                 {
                     b.Property<int>("MembershipId")
@@ -521,6 +576,9 @@ namespace PizzaCore.Migrations
                     b.Property<string>("OrdUpdatedDate")
                         .HasColumnType("text");
 
+                    b.Property<string>("PayBy")
+                        .HasColumnType("text");
+
                     b.Property<string>("TimeWanted")
                         .HasColumnType("text");
 
@@ -558,6 +616,39 @@ namespace PizzaCore.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderStatus");
+                });
+
+            modelBuilder.Entity("PizzaCore.Entity.OrderDetails.OrderDetailsDto", b =>
+                {
+                    b.Property<int>("DetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ItemPriceId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<double>("SubTotal")
+                        .HasColumnType("double");
+
+                    b.HasKey("DetailsId");
+
+                    b.HasIndex("ItemPriceId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("PizzaCore.Entity.Pizza.PizzaDto", b =>
@@ -644,6 +735,9 @@ namespace PizzaCore.Migrations
 
                     b.Property<float>("PizzaSubTotal")
                         .HasColumnType("float");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -1013,6 +1107,30 @@ namespace PizzaCore.Migrations
                     b.Navigation("ToppingId");
                 });
 
+            modelBuilder.Entity("PizzaCore.Entity.Item.Item", b =>
+                {
+                    b.HasOne("PizzaCore.Entity.Category.CategoryDto", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PizzaCore.Entity.Item.ItemDetails", b =>
+                {
+                    b.HasOne("PizzaCore.Entity.Item.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId");
+
+                    b.HasOne("PizzaCore.Entity.Sizes.SizesDto", "SizeId")
+                        .WithMany()
+                        .HasForeignKey("SizeIdSizesId");
+
+                    b.Navigation("Item");
+
+                    b.Navigation("SizeId");
+                });
+
             modelBuilder.Entity("PizzaCore.Entity.Order.OrderDto", b =>
                 {
                     b.HasOne("PizzaCore.Entity.Customer.CustomerDto", "Customer")
@@ -1039,6 +1157,21 @@ namespace PizzaCore.Migrations
                     b.HasOne("PizzaCore.Entity.Order.OrderDto", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("PizzaCore.Entity.OrderDetails.OrderDetailsDto", b =>
+                {
+                    b.HasOne("PizzaCore.Entity.Item.ItemDetails", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemPriceId");
+
+                    b.HasOne("PizzaCore.Entity.Order.OrderDto", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.Navigation("Item");
 
                     b.Navigation("Order");
                 });

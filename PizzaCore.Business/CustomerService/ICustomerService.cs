@@ -15,7 +15,7 @@ namespace PizzaCore.Business.CustomerService
         public CustomerMembership GetCustomerActiveMembership(string customer);
         
         // CUSTOMER
-        public bool SaveCustomer(CustomerDto dto);
+        public int SaveCustomer(CustomerDto dto);
         public CustomerDto SearchByContact(string contact);
         public List<CustomerDto> AllCustomers();
     }

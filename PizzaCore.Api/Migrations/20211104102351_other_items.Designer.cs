@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaPos.DataAccess.AuthRepository;
 
 namespace PizzaCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211104102351_other_items")]
+    partial class other_items
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -574,9 +576,6 @@ namespace PizzaCore.Migrations
                     b.Property<string>("OrdUpdatedDate")
                         .HasColumnType("text");
 
-                    b.Property<string>("PayBy")
-                        .HasColumnType("text");
-
                     b.Property<string>("TimeWanted")
                         .HasColumnType("text");
 
@@ -614,39 +613,6 @@ namespace PizzaCore.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderStatus");
-                });
-
-            modelBuilder.Entity("PizzaCore.Entity.OrderDetails.OrderDetailsDto", b =>
-                {
-                    b.Property<int>("DetailsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ItemPriceId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double");
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<double>("SubTotal")
-                        .HasColumnType("double");
-
-                    b.HasKey("DetailsId");
-
-                    b.HasIndex("ItemPriceId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("PizzaCore.Entity.Pizza.PizzaDto", b =>
@@ -1155,21 +1121,6 @@ namespace PizzaCore.Migrations
                     b.HasOne("PizzaCore.Entity.Order.OrderDto", "Order")
                         .WithMany()
                         .HasForeignKey("OrderId");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("PizzaCore.Entity.OrderDetails.OrderDetailsDto", b =>
-                {
-                    b.HasOne("PizzaCore.Entity.Item.ItemDetails", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemPriceId");
-
-                    b.HasOne("PizzaCore.Entity.Order.OrderDto", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId");
-
-                    b.Navigation("Item");
 
                     b.Navigation("Order");
                 });

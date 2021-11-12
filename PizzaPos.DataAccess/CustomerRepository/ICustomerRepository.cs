@@ -7,8 +7,8 @@ namespace PizzaPos.DataAccess.CustomerRepository
 {
     public interface ICustomerRepository
     {
-        public bool SaveCustomer(CustomerDto dto);
-        public bool UpdateCustomer(CustomerDto dto);
+        public int SaveCustomer(CustomerDto dto);
+        public int UpdateCustomer(CustomerDto dto);
         public CustomerDto SearchByContact(string contact);
         public CustomerDto SearchById(int id);
         public List<CustomerDto> GetAllCustomers();

@@ -7,5 +7,18 @@ namespace PizzaCore.Entity.Payload.requests
         public string Side { get; set; }
         public int Portion { get; set; }
         public float Cost { get; set; }
+
+        public ExtraToppingRequest()
+        {
+        }
+
+        public ExtraToppingRequest(int extraToppingId, int toppingPriceId, string side, int portion, float cost)
+        {
+            ExtraToppingId = extraToppingId;
+            ToppingPriceId = toppingPriceId;
+            Side = side;
+            Portion = portion;
+            Cost = cost;
+        }
     }
 }

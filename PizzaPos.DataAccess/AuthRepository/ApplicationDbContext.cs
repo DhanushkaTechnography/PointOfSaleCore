@@ -9,8 +9,10 @@ using PizzaCore.Entity.Customer;
 using PizzaCore.Entity.CustomerMembership;
 using PizzaCore.Entity.DeliveryOptions;
 using PizzaCore.Entity.Ingredients;
+using PizzaCore.Entity.Item;
 using PizzaCore.Entity.Membership;
 using PizzaCore.Entity.Order;
+using PizzaCore.Entity.OrderDetails;
 using PizzaCore.Entity.Pizza;
 using PizzaCore.Entity.PizzaOrderDetails;
 using PizzaCore.Entity.PizzaSizes;
@@ -77,5 +79,8 @@ namespace PizzaPos.DataAccess.AuthRepository
         public DbSet<OrderStatusDto> OrderStatus { get; set; }
         public DbSet<PizzaOrderDetailsDto> OrderDetailsPizza { get; set; }
         public DbSet<ExtraToppings> ExtraTopping { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<ItemDetails> ItemPrices { get; set; }
+        public DbSet<OrderDetailsDto> OrderDetails { get; set; }
     }
 }

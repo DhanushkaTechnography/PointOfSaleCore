@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using PizzaCore.Entity.OrderDetails;
 
 namespace PizzaCore.Entity.Payload.requests
 {
@@ -16,5 +17,9 @@ namespace PizzaCore.Entity.Payload.requests
         public float OrdTotal { get; set; }
         public string Status { get; set; }
         public string Note { get; set; }
+        public string PayBy { get; set; }
+
+        public List<OrderPizzaItems> PizzaItems { get; set; }
+        public List<OrderItems> OtherItems { get; set; }
     }
 }

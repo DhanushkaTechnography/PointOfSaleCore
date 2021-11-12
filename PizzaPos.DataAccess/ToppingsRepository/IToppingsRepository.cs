@@ -10,5 +10,6 @@ namespace PizzaPos.DataAccess.ToppingsRepository
         public ToppingsDto GetToppingById(int ToppingsId);
 
         public List<ToppingsDto> GetAllToppings();
+        int GetToppingTypeById(int toppingToppingsId);
     }
 }

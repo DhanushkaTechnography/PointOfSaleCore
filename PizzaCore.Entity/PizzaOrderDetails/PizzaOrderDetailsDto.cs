@@ -19,13 +19,14 @@ namespace PizzaCore.Entity.PizzaOrderDetails
         public CrustPricesDto Crust { get; set; }
         public float PizzaSubTotal { get; set; }
         public string Note { get; set; }
+        public int Qty { get; set; }
         public int Status { get; set; }
 
         public PizzaOrderDetailsDto()
         {
         }
 
-        public PizzaOrderDetailsDto(int pizzaOrderDetailsId, OrderDto order, PizzaSizesDto pizza, CrustPricesDto crust, float pizzaSubTotal, string note, int status)
+        public PizzaOrderDetailsDto(int pizzaOrderDetailsId, OrderDto order, PizzaSizesDto pizza, CrustPricesDto crust, float pizzaSubTotal, string note,int qty, int status)
         {
             PizzaOrderDetailsId = pizzaOrderDetailsId;
             Order = order;
@@ -33,6 +34,7 @@ namespace PizzaCore.Entity.PizzaOrderDetails
             Crust = crust;
             PizzaSubTotal = pizzaSubTotal;
             Note = note;
+            Qty = qty;
             Status = status;
         }
     }

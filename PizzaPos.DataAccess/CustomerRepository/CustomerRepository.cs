@@ -17,18 +17,18 @@ namespace PizzaPos.DataAccess.CustomerRepository
             _dbContext = dbContext;
         }
 
-        public bool SaveCustomer(CustomerDto dto)
+        public int SaveCustomer(CustomerDto dto)
         {
-            _dbContext.CustomerDto.Add(dto);
+            var entity = _dbContext.CustomerDto.Add(dto).Entity;
             _dbContext.SaveChanges();
-            return true;
+            return entity.CusId;
         }
 
-        public bool UpdateCustomer(CustomerDto dto)
+        public int UpdateCustomer(CustomerDto dto)
         {
-            _dbContext.CustomerDto.Update(dto);
+            var entity = _dbContext.CustomerDto.Update(dto).Entity;
             _dbContext.SaveChanges();
-            return true;
+            return entity.CusId;
         }
 
         public CustomerDto SearchByContact(string contact)

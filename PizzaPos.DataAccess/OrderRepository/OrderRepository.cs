@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using PizzaCore.Entity.Order;
 using PizzaPos.DataAccess.AuthRepository;
 
@@ -32,6 +34,12 @@ namespace PizzaPos.DataAccess.OrderRepository
             return _dbContext.Orders.Find(id);
         }
 
+        public List<OrderDto> CustomerOrders(int customerId)
+        {
+            return _dbContext.Orders.Include(dto => dto.Customer).Include(dto => dto.Employee)
+                .Include(dto => dto.DeliveryOption).Where(dto => dto.Customer.CusId == customerId).ToList();
+        }
+
         public OrderStatusDto SaveOrderStatus(OrderStatusDto dto)
         {
             var entity = _dbContext.OrderStatus.Add(dto).Entity;
@@ -49,6 +57,19 @@ namespace PizzaPos.DataAccess.OrderRepository
         public OrderStatusDto SearchOrderStatus(OrderDto order)
         {
             return _dbContext.OrderStatus.First(dto => dto.Order == order && dto.Active == 1);
+        }
+
+        public List<OrderStatusDto> GetAllByStatus(string status)
+        {
+            return _dbContext.OrderStatus.Include(dto => dto.Order).Include(dto => 
+                dto.Order.Customer).Include(dto => 
+                dto.Order.Employee).Include(dto => 
+                dto.Order.DeliveryOption).Where(dto => dto.StatusName == status && dto.Active == 1).ToList();
+        }
+
+        public List<OrderStatusDto> GetStatusByOrder(int orderId)
+        {
+            return _dbContext.OrderStatus.Where(dto => dto.Order.OrderId == orderId).ToList();
         }
     }
 }
